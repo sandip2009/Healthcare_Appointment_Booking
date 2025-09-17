@@ -21,7 +21,8 @@ class AppointmentController extends Controller
         try {
 
             // only user's appointments
-            $userId = auth()->user()->id;
+            // $userId = auth()->user()->id;
+            $userId = auth()->user()->id ?? $request->user_id;
             $appointments = Appointment::with(['user', 'professional'])
             ->where('user_id', $userId)
             ->where('active_status', 'Y')
@@ -53,7 +54,7 @@ class AppointmentController extends Controller
         try {
             $validated = Appointment::validateBooking($request->all());
             
-            $userId = auth()->user()->id;
+            $userId = auth()->user()->id ?? $request->user_id;
 
             // Assign appointment to the logged-in user
             $appointment = Appointment::create([
@@ -65,7 +66,7 @@ class AppointmentController extends Controller
                 'success'  => true,
                 'message'     => 'Appointment booked successfully.',
                 'data' => new AppointmentResource($appointment),
-            ], 200);
+            ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -82,9 +83,15 @@ class AppointmentController extends Controller
     public function cancel(Request $request)
     {
         try {
+            $validated = $request->validate([
+                'appointment_id' => 'required|integer|exists:appointments,id',
+                'user_id' => 'sometimes|integer|exists:users,id',
+            ]);
+            $userId = auth()->user()->id ?? $request->user_id;
             $appointment = Appointment::where('id', $request->appointment_id)
                 ->where('active_status', 'Y')
-                ->where('user_id', auth()->user()->id)
+                ->where('user_id', $userId)
+                ->where('status', 'booked')
                 ->firstOrFail();
 
             $appointmentDateTime = Carbon::parse($appointment->appointment_start_time);
@@ -120,7 +127,7 @@ class AppointmentController extends Controller
     public function show($id)
     {
         try {
-            $appointment = Appointment::with(['user', 'professional'])->find($id);
+            $appointment = Appointment::with(['user', 'healthcareProfessional'])->find($id);
 
             if (!$appointment) {
                 return response()->json([

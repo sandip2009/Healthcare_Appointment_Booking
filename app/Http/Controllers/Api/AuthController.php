@@ -40,7 +40,7 @@ class AuthController extends Controller
                     'user'  => new UserResource($user),
                     'token' => $token,
                 ],
-            ], 201);
+            ], 200);
         } catch (\Exception $e) {
             // Catch any unexpected error
             return response()->json([
@@ -65,9 +65,10 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
 
             if (!$user || ! Hash::check($request->password, $user->password)) {
-                throw ValidationException::withMessages([
-                    'email' => ['The provided credentials are incorrect.'],
-                ]);
+                return response()->json([
+                    'success'  => false,
+                    'message' => 'Invalid login credentials',
+                ], 401);
             }
 
             //revoke old tokens
@@ -83,7 +84,7 @@ class AuthController extends Controller
                     'user'  => new UserResource($user),
                     'token' => $token,
                 ],
-            ],201);
+            ],200);
         } catch (\Exception $e) {
             // Catch any unexpected error
             return response()->json([

@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory; //use  for unit tests
 
 class Appointment extends Model
 {
+    use HasFactory; // use  for unit tests
+
     /**
      * The attributes that are mass assignable.
      *
@@ -136,6 +139,11 @@ class Appointment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function healthcareProfessional()
+    {
+        return $this->belongsTo(HealthcareProfessional::class);
     }
 
     public const STATUS_BOOKED = 'booked';

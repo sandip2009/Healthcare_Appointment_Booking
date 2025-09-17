@@ -47,8 +47,9 @@ trait HasBookingSlots
     {
         $days = [];
         $today = Carbon::today();
-
+        // dd($this->available_days);
         $availableDaysConfig = json_decode($this->available_days,true) ?? [];
+        // dd($availableDaysConfig);
 
         // get this professional’s booked appointments in the next N days
         $appointments = Appointment::where('healthcare_professional_id', $this->id)
