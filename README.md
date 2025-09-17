@@ -67,6 +67,8 @@ php artisan optimize
 ### Run migrations & seed sample data
 
 ```bash
+cd database/
+touch database.sqlite
 php artisan migrate:fresh  # if used sqlite database
 ```
 
