@@ -46,6 +46,7 @@ cp .env.example .env
 php artisan key:generate
 ```
 
+
 ### Configure database (`.env`)
 ```env
 DB_CONNECTION=mysql   # or sqlite
@@ -56,7 +57,14 @@ DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
 
+
+
 ### Run migrations & seed sample data
+
+```bash
+php artisan migrate:fresh  # if used sqlite databse
+```
+
 ```bash
 php artisan migrate --seed
 ```
