@@ -95,6 +95,22 @@ POST /api/register
   "password_confirmation": "password123"
 }
 ```
+**Response**
+```json
+{
+    "status": true,
+    "message": "User registered successfully.",
+    "data": {
+        "user": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john2@example.com",
+            "email_verified_at": null
+        },
+        "token": "1|pvSJvUPurSiPtBtbLk6a7M0TpdJgrGMyK2PiXvLHa0fe5b69"
+    }
+}
+```
 
 #### Login
 ```http
@@ -107,6 +123,22 @@ POST /api/login
   "password": "password123"
 }
 ```
+**Response**
+```json
+{
+    "status": true,
+    "message": "User registered successfully.",
+    "data": {
+        "user": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "john2@example.com",
+            "email_verified_at": null
+        },
+        "token": "1|pvSJvUPurSiPtBtbLk6a7M0TpdJgrGMyK2PiXvLHa0fe5b69"
+    }
+}
+```
 
 ---
 
@@ -116,10 +148,326 @@ POST /api/login
 ```http
 GET /api/healthcare-professionals
 ```
+**Response**
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Dr. Rosalyn Brekke",
+            "about": "Suscipit dolorem.",
+            "available": true,
+            "speciality": "GeneralPhysician",
+            "days": [
+                {
+                    "day": "WED",
+                    "date": "17",
+                    "full_date": "2025-09-17",
+                    "available": false
+                },
+                {
+                    "day": "THU",
+                    "date": "18",
+                    "full_date": "2025-09-18",
+                    "available": false
+                },
+                {
+                    "day": "FRI",
+                    "date": "19",
+                    "full_date": "2025-09-19",
+                    "available": false
+                },
+                {
+                    "day": "SAT",
+                    "date": "20",
+                    "full_date": "2025-09-20",
+                    "available": false
+                },
+                {
+                    "day": "SUN",
+                    "date": "21",
+                    "full_date": "2025-09-21",
+                    "available": false
+                },
+                {
+                    "day": "MON",
+                    "date": "22",
+                    "full_date": "2025-09-22",
+                    "available": false
+                },
+                {
+                    "day": "TUE",
+                    "date": "23",
+                    "full_date": "2025-09-23",
+                    "available": false
+                },
+                {
+                    "day": "WED",
+                    "date": "24",
+                    "full_date": "2025-09-24",
+                    "available": false
+                }
+            ]
+        }
+    ],
+    "links": {
+        "first": "http://127.0.0.1:8000/api/healthcare-professionals?page=1",
+        "last": "http://127.0.0.1:8000/api/healthcare-professionals?page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "page": null,
+                "active": false
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/healthcare-professionals?page=1",
+                "label": "1",
+                "page": 1,
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "page": null,
+                "active": false
+            }
+        ],
+        "path": "http://127.0.0.1:8000/api/healthcare-professionals",
+        "per_page": 10,
+        "to": 6,
+        "total": 6
+    },
+    "success": true,
+    "message": "Healthcare professionals fetched successfully."
+}
+```
 
 #### Show professional (today’s slots + available days)
 ```http
 GET /api/healthcare-professionals/{id}
+```
+
+**Response**
+```json
+{
+    "success": true,
+    "message": "Healthcare professionals fetched successfully.",
+    "data": {
+        "id": 1,
+        "name": "Dr. Rosalyn Brekke",
+        "about": "Suscipit dolorem.",
+        "available": true,
+        "speciality": "GeneralPhysician",
+        "days": [
+            {
+                "day": "WED",
+                "date": "17",
+                "full_date": "2025-09-17",
+                "available": true
+            },
+            {
+                "day": "THU",
+                "date": "18",
+                "full_date": "2025-09-18",
+                "available": true
+            },
+            {
+                "day": "FRI",
+                "date": "19",
+                "full_date": "2025-09-19",
+                "available": true
+            },
+            {
+                "day": "SAT",
+                "date": "20",
+                "full_date": "2025-09-20",
+                "available": true
+            },
+            {
+                "day": "SUN",
+                "date": "21",
+                "full_date": "2025-09-21",
+                "available": false
+            },
+            {
+                "day": "MON",
+                "date": "22",
+                "full_date": "2025-09-22",
+                "available": true
+            },
+            {
+                "day": "TUE",
+                "date": "23",
+                "full_date": "2025-09-23",
+                "available": false
+            },
+            {
+                "day": "WED",
+                "date": "24",
+                "full_date": "2025-09-24",
+                "available": true
+            }
+        ],
+        "slots_available": [
+            {
+                "day": "WED",
+                "date": "17",
+                "full_date": "2025-09-17",
+                "available": true,
+                "slots": [
+                    {
+                        "time": "10:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "10:30 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:00 am",
+                        "available": true
+                    }
+                    // ......................
+                ]
+            },
+            {
+                "day": "THU",
+                "date": "18",
+                "full_date": "2025-09-18",
+                "available": true,
+                "slots": [
+                    {
+                        "time": "10:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "10:30 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:00 am",
+                        "available": true
+                    }
+                    // ................
+                ]
+            },
+            {
+                "day": "FRI",
+                "date": "19",
+                "full_date": "2025-09-19",
+                "available": true,
+                "slots": [
+                    {
+                        "time": "10:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "10:30 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:00 am",
+                        "available": true
+                    },
+                    // ......................
+                ]
+            },
+            {
+                "day": "SAT",
+                "date": "20",
+                "full_date": "2025-09-20",
+                "available": true,
+                "slots": [
+                    {
+                        "time": "10:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "10:30 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:30 am",
+                        "available": true
+                    }
+                    // ......................
+                ]
+            },
+            {
+                "day": "SUN",
+                "date": "21",
+                "full_date": "2025-09-21",
+                "available": false,
+                "slots": []
+            },
+            {
+                "day": "MON",
+                "date": "22",
+                "full_date": "2025-09-22",
+                "available": true,
+                "slots": [
+                    {
+                        "time": "10:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "10:30 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:30 am",
+                        "available": true
+                    }
+                    // .................
+                ]
+            },
+            {
+                "day": "TUE",
+                "date": "23",
+                "full_date": "2025-09-23",
+                "available": false,
+                "slots": []
+            },
+            {
+                "day": "WED",
+                "date": "24",
+                "full_date": "2025-09-24",
+                "available": true,
+                "slots": [
+                    {
+                        "time": "10:00 am",
+                        "available": true
+                    },
+                    {
+                        "time": "10:30 am",
+                        "available": true
+                    },
+                    {
+                        "time": "11:00 am",
+                        "available": true
+                    }, "available": true
+                    // ..................
+                ]
+            }
+        ]
+    }
+}
 ```
 
 #### Get available slots by day

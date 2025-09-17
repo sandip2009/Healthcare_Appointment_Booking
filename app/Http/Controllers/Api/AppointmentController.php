@@ -28,10 +28,10 @@ class AppointmentController extends Controller
             ->latest('appointment_start_time')
             ->paginate(10);
 
-            return response()->json([
-                'success'  => true,
+            return (AppointmentResource::collection($appointments))
+            ->additional([
+                'success' => true,
                 'message' => 'Pppointments list fetched successfully.',
-                'data'    => AppointmentResource::collection($appointments),
             ],200);
 
         } catch (\Exception $e) {

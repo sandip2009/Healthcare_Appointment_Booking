@@ -48,7 +48,7 @@ trait HasBookingSlots
         $days = [];
         $today = Carbon::today();
 
-        $availableDaysConfig = $this->available_days ?? [];
+        $availableDaysConfig = json_decode($this->available_days,true) ?? [];
 
         // get this professional’s booked appointments in the next N days
         $appointments = Appointment::where('healthcare_professional_id', $this->id)
@@ -61,6 +61,7 @@ trait HasBookingSlots
             $dayName = strtoupper($date->format('D')); // MON, TUE...
 
             $dayConfig = collect($availableDaysConfig)->firstWhere('day', $dayName);
+             // if no config or not available, no slots
 
             if (!$dayConfig || !$dayConfig['available']) {
                 $days[] = [

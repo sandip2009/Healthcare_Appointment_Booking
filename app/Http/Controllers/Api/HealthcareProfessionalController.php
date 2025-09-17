@@ -17,12 +17,12 @@ class HealthcareProfessionalController extends Controller
     {
         try {
             $query = HealthcareProfessional::query()->where('available', true);
-            $profs = $query->paginate(20);
-            return response()->json([
-                'success'  => true,
+            $profs = $query->paginate(10);
+            return (HealthcareProfessionalResource::collection($profs))
+            ->additional([
+                'success' => true,
                 'message' => 'Healthcare professionals fetched successfully.',
-                'data'    => HealthcareProfessionalResource::collection($profs),
-            ],201);
+            ],200);
 
         } catch (\Exception $e) {
             // Catch any unexpected error
