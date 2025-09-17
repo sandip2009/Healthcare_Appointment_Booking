@@ -9,7 +9,8 @@ It supports:
 - Avoiding double-booking by marking overlapping slots as unavailable.
 - Returning slot availability per day or only for the current date.
 
-![screenshot](https://github.com/user-attachments/assets/268e3d72-865a-4505-85aa-c34ca25f57f5)
+<img width="1573" height="812" alt="image" src="https://github.com/user-attachments/assets/268e3d72-865a-4505-85aa-c34ca25f57f5" />
+
 
 ---
 
