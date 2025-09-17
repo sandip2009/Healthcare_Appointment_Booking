@@ -79,10 +79,13 @@ class AppointmentController extends Controller
     /**
      * Cancel an appointment (not allowed within 24 hours).
      */
-    public function cancel($id)
+    public function cancel(Request $request)
     {
         try {
-            $appointment = Appointment::findOrFail($id);
+            $appointment = Appointment::where('id', $request->appointment_id)
+                ->where('active_status', 'Y')
+                ->where('user_id', auth()->user()->id)
+                ->firstOrFail();
 
             $appointmentDateTime = Carbon::parse($appointment->appointment_start_time);
             $now = Carbon::now();
@@ -142,10 +145,10 @@ class AppointmentController extends Controller
         }
     }
 
-    public function complete($id)
+    public function complete(Request $request)
 {
     try {
-        $appointment = Appointment::findOrFail($id);
+        $appointment = Appointment::findOrFail($request->appointment_id);
 
         //Prevent marking cancelled or already completed appointments
         if ($appointment->status === 'cancelled') {

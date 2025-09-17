@@ -20,7 +20,6 @@ class HealthcareProfessional extends Model
         'about',
         'available',
         'speciality',
-        'available_days',
     ];
 
     /**

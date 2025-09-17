@@ -53,7 +53,7 @@ class Appointment extends Model
         }
 
         //Check day availability
-        $availableDays = collect($professional->available_days);
+        $availableDays = collect(json_decode($professional->available_days, true) ?? []);
         $startDate = Carbon::parse($data['appointment_start_time']);
         $endDate   = Carbon::parse($data['appointment_end_time']);
         $dayName   = strtoupper($startDate->format('D'));
@@ -128,7 +128,16 @@ class Appointment extends Model
         'appointment_end_time' => 'datetime',
     ];
 
-    //use in future
+    public function professional()
+    {
+        return $this->belongsTo(HealthcareProfessional::class, 'healthcare_professional_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public const STATUS_BOOKED = 'booked';
     public const STATUS_COMPLETED = 'completed';
     public const STATUS_CANCELLED = 'cancelled';

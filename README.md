@@ -57,7 +57,12 @@ DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
 
+### For Optimize Clear
+```bash
 
+php artisan optimize
+
+```
 
 ### Run migrations & seed sample data
 
@@ -68,6 +73,8 @@ php artisan migrate:fresh  # if used sqlite database
 ```bash
 php artisan migrate --seed
 ```
+
+
 
 ### Run the development server
 ```bash
@@ -474,6 +481,45 @@ GET /api/healthcare-professionals/{id}
 ```http
 POST /api/healthcare-professionals/availableSlotsByDate/{id}
 ```
+**Payload:**
+```json
+{
+    "full_date": "2025-09-18"
+}
+```
+
+**Response**
+```json
+{
+    "success": true,
+    "message": "Available slots fetched successfully.",
+    "full_date": "2025-09-18",
+    "slots": [
+        {
+            "time": "10:00 am",
+            "available": true
+        },
+        {
+            "time": "10:30 am",
+            "available": true
+        },
+        {
+            "time": "11:00 am",
+            "available": true
+        },
+        {
+            "time": "11:30 am",
+            "available": true
+        },
+        ...
+
+        {
+            "time": "10:00 pm",
+            "available": true
+        }
+    ]
+}
+```
 
 ---
 
@@ -489,6 +535,64 @@ GET /api/appointments
 GET /api/appointments/{id}
 ```
 
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "healthcare_professional_id": 3,
+            "appointment_start_time": "2025-09-17 11:00:00",
+            "appointment_end_time": "2025-09-17 12:30:00",
+            "appointment_date": "2025-09-17",
+            "appointment_day": "WED",
+            "appointment_slot": "11:00 am - 12:30 pm",
+            "status": "booked",
+            "description": "Regular health checkup",
+            "created_at": "2025-09-17 10:17:37",
+            "updated_at": "2025-09-17 10:17:37"
+        }
+    ],
+    "links": {
+        "first": "http://127.0.0.1:8000/api/appointments?page=1",
+        "last": "http://127.0.0.1:8000/api/appointments?page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "page": null,
+                "active": false
+            },
+            {
+                "url": "http://127.0.0.1:8000/api/appointments?page=1",
+                "label": "1",
+                "page": 1,
+                "active": true
+            },
+            {
+                "url": null,
+                "label": "Next &raquo;",
+                "page": null,
+                "active": false
+            }
+        ],
+        "path": "http://127.0.0.1:8000/api/appointments",
+        "per_page": 10,
+        "to": 1,
+        "total": 1
+    },
+    "success": true,
+    "message": "Pppointments list fetched successfully."
+}
+```
+
 #### Book an appointment
 ```http
 POST /api/appointments
@@ -502,12 +606,59 @@ POST /api/appointments
   "description": "Regular health checkup"
 }
 ```
+**Response**
+```json
+{
+    "success": true,
+    "message": "Appointment booked successfully.",
+    "data": {
+        "id": 1,
+        "user_id": 1,
+        "healthcare_professional_id": 3,
+        "appointment_start_time": "2025-09-17 11:00:00",
+        "appointment_end_time": "2025-09-17 12:30:00",
+        "appointment_date": "2025-09-17",
+        "appointment_day": "WED",
+        "appointment_slot": "11:00 am - 12:30 pm",
+        "status": null,
+        "description": "Regular health checkup",
+        "created_at": "2025-09-17 10:17:37",
+        "updated_at": "2025-09-17 10:17:37"
+    }
+}
+```
 
 #### Cancel an appointment
 ```http
-POST /api/appointments/{id}/cancel
+POST /api/appointments/cancel
 ```
-
+Payload
+```json
+{
+    "appointment_id": 2
+}
+```
+**Response**
+```json
+{
+    "success": true,
+    "message": "Appointment cancelled successfully.",
+    "data": {
+        "id": 2,
+        "user_id": 1,
+        "healthcare_professional_id": 3,
+        "appointment_start_time": "2025-09-19 11:00:00",
+        "appointment_end_time": "2025-09-19 12:30:00",
+        "appointment_date": "2025-09-19",
+        "appointment_day": "FRI",
+        "appointment_slot": "11:00 am - 12:30 pm",
+        "status": "cancelled",
+        "description": "Regular health checkup",
+        "created_at": "2025-09-17 10:25:51",
+        "updated_at": "2025-09-17 10:26:05"
+    }
+}
+```
 ---
 
 ## 📜 License

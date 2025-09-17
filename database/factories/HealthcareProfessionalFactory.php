@@ -42,7 +42,7 @@ class HealthcareProfessionalFactory extends Factory
                 'Neurologist',
                 'Gastroenterologist',
             ]),
-            'available_days' => json_encode($availableDays), // store as JSON
+            'available_days' => json_encode($availableDays, true), // store as JSON
         ];
     }
     
