@@ -62,7 +62,7 @@ DB_PASSWORD=your_password
 ### Run migrations & seed sample data
 
 ```bash
-php artisan migrate:fresh  # if used sqlite databse
+php artisan migrate:fresh  # if used sqlite database
 ```
 
 ```bash
